@@ -20,8 +20,8 @@ jobs:
         - flyway-*/flyway -url="jdbc:mysql://localhost:3306/tracker_test" -locations=filesystem:databases/tracker -user=tracker -password= clean migrate
       script: ./gradlew clean build
       before_deploy:
-        - git config --local user.name "chrisgrollier"
-        - git config --local user.email "cgrollier@free.fr"
+        - git config --local user.name "ayoubbahssou"
+        - git config --local user.email "ayoub.bahssou@gmail.com"
         - git tag -f $RELEASE_TAG
       deploy:
         provider: releases
