@@ -7,12 +7,12 @@ import java.util.List;
 
 public class InMemoryTimeEntryRepository implements TimeEntryRepository{
     private List<TimeEntry> listTimeEntry = new ArrayList<>();
-   private static Long idCount = 1L;
+   private  Long idCount = 1L;
     @Override
     public TimeEntry create(TimeEntry timeEntry) {
 
-            timeEntry.setId(idCount++);
-
+            timeEntry.setId(idCount);
+        idCount+=1;
         listTimeEntry.add(timeEntry);
         return timeEntry;
     }
@@ -46,8 +46,10 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
         //this.delete(l);
         TimeEntry timeEntree = this.find(l);
         if(timeEntree!=null) {
+            timeEntry.setId(timeEntree.getId());
             listTimeEntry.remove(timeEntree);
-            return this.create(timeEntry);
+            listTimeEntry.add(timeEntry);
+            return timeEntry;
         }
         return null;
     }
