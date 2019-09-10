@@ -11,6 +11,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class InMemoryTimeEntryRepositoryTest {
+
     @Test
     public void create() throws Exception {
         InMemoryTimeEntryRepository repo = new InMemoryTimeEntryRepository();
@@ -18,7 +19,7 @@ public class InMemoryTimeEntryRepositoryTest {
         long projectId = 123L;
         long userId = 456L;
         TimeEntry createdTimeEntry = repo.create(new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"), 8));
-
+        //createdTimeEntry.setId(1L);
         long timeEntryId = 1L;
         TimeEntry expected = new TimeEntry(timeEntryId, projectId, userId, LocalDate.parse("2017-01-08"), 8);
         assertThat(createdTimeEntry).isEqualTo(expected);
@@ -117,4 +118,5 @@ public class InMemoryTimeEntryRepositoryTest {
 
         assertThat(createdSecond.getId()).isEqualTo(2);
     }
+
 }
