@@ -38,8 +38,18 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
     @Override
     public  void delete(long id) {
         TimeEntry timeEntry = this.find(id);
-        if(timeEntry!=null)
-        listTimeEntry.remove(timeEntry);
+        if(timeEntry!=null){
+
+            for(int i =0;i<listTimeEntry.size();i++){
+
+
+                if(list().get(i).getId()==id){
+                    list().remove(i);
+                }
+
+            }
+        }
+        //listTimeEntry.remove(timeEntry);
     }
     @Override
     public TimeEntry update(long l, TimeEntry timeEntry) {
