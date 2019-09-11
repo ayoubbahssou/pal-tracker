@@ -1,67 +1,50 @@
 package io.pivotal.pal.tracker;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class InMemoryTimeEntryRepository implements TimeEntryRepository{
-    private List<TimeEntry> listTimeEntry = new ArrayList<>();
-   private  Long idCount = 1L;
+public class InMemoryTimeEntryRepository implements TimeEntryRepository {
+
+    private long id = 1L;
+
+    private Map<Long, TimeEntry> listTimeEntry = new HashMap<>();
+
     @Override
     public TimeEntry create(TimeEntry timeEntry) {
 
-            timeEntry.setId(idCount);
-        idCount+=1;
-        listTimeEntry.add(timeEntry);
+        if (timeEntry.getId() == 0) {
+            timeEntry.setId(id++);
+        }
+        listTimeEntry.put(timeEntry.getId(), timeEntry);
+
         return timeEntry;
     }
 
-
     @Override
     public TimeEntry find(long id) {
-        //return (TimeEntry) listTimeEntry.stream().filter(timeEntry -> timeEntry.getId()==id);
-        for(TimeEntry timeEntry : listTimeEntry){
-            if(timeEntry.getId()==id){
-                return timeEntry;
-            }
-        }
-
-        return  null;
-
+        return listTimeEntry.get(id);
     }
 
     @Override
     public List<TimeEntry> list() {
-        return listTimeEntry;
+        return new ArrayList<>(listTimeEntry.values());
     }
+
     @Override
-    public  void delete(long id) {
-        TimeEntry timeEntry = this.find(id);
-        if(timeEntry!=null){
-
-            for(int i =0;i<listTimeEntry.size();i++){
-
-
-                if(list().get(i).getId()==id){
-                    list().remove(i);
-                }
-
-            }
-        }
-        //listTimeEntry.remove(timeEntry);
-    }
-    @Override
-    public TimeEntry update(long l, TimeEntry timeEntry) {
-        //this.delete(l);
-        TimeEntry timeEntree = this.find(l);
-        if(timeEntree!=null) {
-            timeEntry.setId(timeEntree.getId());
-            listTimeEntry.remove(timeEntree);
-            listTimeEntry.add(timeEntry);
+    public TimeEntry update(long id, TimeEntry timeEntry) {
+        if (listTimeEntry.containsKey(id)) {
+            timeEntry.setId(id);
+            listTimeEntry.put(id, timeEntry);
             return timeEntry;
         }
         return null;
     }
 
+    @Override
+    public void delete(long id) {
+        listTimeEntry.remove(id);
+    }
 }

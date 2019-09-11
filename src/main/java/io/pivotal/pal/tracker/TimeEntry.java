@@ -1,13 +1,43 @@
 package io.pivotal.pal.tracker;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class TimeEntry {
+
     private long id;
     private long projectId;
     private long userId;
     private LocalDate date;
     private int hours;
+
+
+    public TimeEntry(long projectId, long userId, LocalDate date, int hours) {
+        this.projectId = projectId;
+        this.userId = userId;
+        this.date = date;
+        this.hours = hours;
+    }
+
+    public TimeEntry(long id, long projectId, long userId, LocalDate date, int hours) {
+        this.id = id;
+        this.projectId = projectId;
+        this.userId = userId;
+        this.date = date;
+        this.hours = hours;
+    }
+
+    public TimeEntry() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getProjectId() {
         return projectId;
@@ -41,35 +71,20 @@ public class TimeEntry {
         this.hours = hours;
     }
 
-    public TimeEntry(long projectId, long userId, LocalDate parse, int i) {
-        this.projectId = projectId;
-        this.userId=userId;
-        this.date=parse;
-        this.hours=i;
-    }
-    public TimeEntry(long timeEntryId,long projectId, long userId, LocalDate parse, int i) {
-        this.id=timeEntryId;
-        this.projectId = projectId;
-        this.userId=userId;
-        this.date=parse;
-        this.hours=i;
-    }
-
-    public TimeEntry() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id=id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeEntry timeEntry = (TimeEntry) o;
+        return id == timeEntry.id &&
+                projectId == timeEntry.projectId &&
+                userId == timeEntry.userId &&
+                hours == timeEntry.hours &&
+                Objects.equals(date, timeEntry.date);
     }
 
     @Override
-    public boolean equals(Object timeEntry){
-        return (this.hours==((TimeEntry)timeEntry).hours && this.userId == ((TimeEntry)timeEntry).userId /*&& this.date.equals(((TimeEntry)timeEntry).date) */&& this.projectId == ((TimeEntry)timeEntry).projectId);
+    public int hashCode() {
+        return Objects.hash(id, projectId, userId, date, hours);
     }
-
 }
